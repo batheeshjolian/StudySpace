@@ -14,7 +14,8 @@ bookingForm.addEventListener("submit", async function (event) {
     email: document.getElementById("email").value,
     room: document.getElementById("room").value,
     date: document.getElementById("date").value,
-    time: document.getElementById("time").value
+    time: document.getElementById("time").value,
+    cancellationCode: document.getElementById("cancellationCode").value
   };
 
   try {
@@ -91,9 +92,9 @@ function displayBookings(bookings) {
 }
 
 async function deleteBooking(bookingId) {
-  const adminPin = prompt("Enter admin PIN to cancel this booking:");
+  const code = prompt("Enter your cancellation code or admin PIN:");
 
-  if (!adminPin) {
+  if (!code) {
     return;
   }
 
@@ -108,7 +109,7 @@ async function deleteBooking(bookingId) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        adminPin: adminPin
+        code: code
       })
     });
 
