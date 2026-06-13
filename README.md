@@ -1,8 +1,7 @@
 # StudySpace
+https://studyspace.proj.rotem.click
 
 ## Serverless Study Room Booking System
-
-https://studyspace.proj.rotem.click
 
 StudySpace is a serverless cloud application that allows students to book study rooms in a college environment.
 
