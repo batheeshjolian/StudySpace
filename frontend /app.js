@@ -91,23 +91,36 @@ function displayBookings(bookings) {
 }
 
 async function deleteBooking(bookingId) {
+  const adminPin = prompt("Enter admin PIN to cancel this booking:");
+
+  if (!adminPin) {
+    return;
+  }
+
   if (!confirm("Are you sure you want to cancel this booking?")) {
     return;
   }
 
   try {
     const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        adminPin: adminPin
+      })
     });
 
     if (!response.ok) {
-      throw new Error("Failed to delete booking");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to delete booking");
     }
 
     alert("Booking cancelled successfully!");
     loadBookings();
   } catch (error) {
-    console.error("Error deleting booking:", error);
-    alert("Error cancelling booking. Please check the API connection.");
+    console.error("Error cancelling booking:", error);
+    alert("Error cancelling booking: " + error.message);
   }
-}  
+}
