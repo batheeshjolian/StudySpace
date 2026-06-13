@@ -20,8 +20,11 @@
         <label>Full Name</label>
         <input type="text" id="studentName" placeholder="Enter your full name" required />
 
-        <label>Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required />
+        <label>Student ID</label>
+        <input type="text" id="studentId" placeholder="Enter your student ID" required />
+
+        <label>Email / Phone</label>
+        <input type="text" id="contact" placeholder="Enter your email or phone" required />
 
         <label>Room</label>
         <select id="room" required>
@@ -35,17 +38,27 @@
         <label>Date</label>
         <input type="date" id="date" required />
 
-        <label>Time</label>
-        <input type="time" id="time" required />
+        <label>Start Time</label>
+        <input type="time" id="startTime" required />
+
+        <label>End Time</label>
+        <input type="time" id="endTime" required />
+
+        <label>Friends Student IDs</label>
+        <input
+          type="text"
+          id="friendsIds"
+          placeholder="Enter friends IDs separated by commas, example: 123456789,987654321"
+        />
 
         <label>Cancellation Code</label>
-        <input 
-          type="password" 
-          id="cancellationCode" 
-          placeholder="Choose a 4-digit cancellation code" 
-          minlength="4"
-          required 
-          />
+        <input
+          type="password"
+          id="cancellationCode"
+          placeholder="Choose a cancellation code"
+          required
+        />
+
         <button type="submit">Book Room</button>
       </form>
     </section>
