@@ -5,21 +5,57 @@ const API_URL = "https://poutf4aqsj.execute-api.us-east-1.amazonaws.com/prod";
 const bookingForm = document.getElementById("bookingForm");
 const bookingsList = document.getElementById("bookingsList");
 const refreshBtn = document.getElementById("refreshBtn");
+const dateInput = document.getElementById("date");
+
+// Prevent choosing a past date in the browser
+const today = new Date().toISOString().split("T")[0];
+dateInput.setAttribute("min", today);
 
 bookingForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const booking = {
-    studentName: document.getElementById("studentName").value,
-    studentId: document.getElementById("studentId").value,
-    contact: document.getElementById("contact").value,
+    studentName: document.getElementById("studentName").value.trim(),
+    studentId: document.getElementById("studentId").value.trim(),
+    contact: document.getElementById("contact").value.trim(),
     room: document.getElementById("room").value,
     date: document.getElementById("date").value,
     startTime: document.getElementById("startTime").value,
     endTime: document.getElementById("endTime").value,
-    friendsIds: document.getElementById("friendsIds").value,
-    cancellationCode: document.getElementById("cancellationCode").value
+    friendsIds: document.getElementById("friendsIds").value.trim(),
+    cancellationCode: document.getElementById("cancellationCode").value.trim()
   };
+
+  // Frontend validation: past date or past time
+  const now = new Date();
+  const selectedStartDateTime = new Date(`${booking.date}T${booking.startTime}`);
+
+  if (selectedStartDateTime < now) {
+    alert("You cannot book a room for a past date or past time.");
+    return;
+  }
+
+  // Frontend validation: end time must be after start time
+  const selectedEndDateTime = new Date(`${booking.date}T${booking.endTime}`);
+
+  if (selectedEndDateTime <= selectedStartDateTime) {
+    alert("End time must be after start time.");
+    return;
+  }
+
+  // Frontend validation: maximum 3 hours
+  const durationHours = (selectedEndDateTime - selectedStartDateTime) / (1000 * 60 * 60);
+
+  if (durationHours > 3) {
+    alert("Booking duration cannot be more than 3 hours.");
+    return;
+  }
+
+  // Frontend validation: working hours 08:00-20:00
+  if (booking.startTime < "08:00" || booking.endTime > "20:00") {
+    alert("Booking must be within working hours: 08:00-20:00.");
+    return;
+  }
 
   try {
     const response = await fetch(`${API_URL}/bookings`, {
@@ -82,7 +118,8 @@ function displayBookings(bookings) {
     item.className = "booking-item";
 
     item.innerHTML = `
-      <h3>${booking.room}</h3>
+      <h3>${booking.room || ""}</h3>
+      <p><strong>Status:</strong> ${booking.status || "Reserved"}</p>
       <p><strong>Student:</strong> ${booking.studentName || ""}</p>
       <p><strong>Student ID:</strong> ${booking.studentId || ""}</p>
       <p><strong>Contact:</strong> ${booking.contact || booking.email || ""}</p>
@@ -134,3 +171,6 @@ async function deleteBooking(bookingId) {
     alert("Error cancelling booking: " + error.message);
   }
 }
+
+// Load bookings automatically when the page opens
+loadBookings();
