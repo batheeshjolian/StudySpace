@@ -1,7 +1,7 @@
 // StudySpace - Frontend JavaScript
 
-// Later we will replace this with the real API Gateway URL from AWS
 const API_URL = "https://poutf4aqsj.execute-api.us-east-1.amazonaws.com/prod";
+
 const bookingForm = document.getElementById("bookingForm");
 const bookingsList = document.getElementById("bookingsList");
 const refreshBtn = document.getElementById("refreshBtn");
@@ -11,10 +11,13 @@ bookingForm.addEventListener("submit", async function (event) {
 
   const booking = {
     studentName: document.getElementById("studentName").value,
-    email: document.getElementById("email").value,
+    studentId: document.getElementById("studentId").value,
+    contact: document.getElementById("contact").value,
     room: document.getElementById("room").value,
     date: document.getElementById("date").value,
-    time: document.getElementById("time").value,
+    startTime: document.getElementById("startTime").value,
+    endTime: document.getElementById("endTime").value,
+    friendsIds: document.getElementById("friendsIds").value,
     cancellationCode: document.getElementById("cancellationCode").value
   };
 
@@ -27,8 +30,10 @@ bookingForm.addEventListener("submit", async function (event) {
       body: JSON.stringify(booking)
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Failed to create booking");
+      throw new Error(data.message || "Failed to create booking");
     }
 
     bookingForm.reset();
@@ -36,7 +41,7 @@ bookingForm.addEventListener("submit", async function (event) {
     loadBookings();
   } catch (error) {
     console.error("Error creating booking:", error);
-    alert("Error creating booking. Please check the API connection.");
+    alert("Error creating booking: " + error.message);
   }
 });
 
@@ -58,7 +63,7 @@ async function loadBookings() {
     console.error("Error loading bookings:", error);
     bookingsList.innerHTML = `
       <p class="error">
-        Could not load bookings. API is not connected yet.
+        Could not load bookings. API is not connected.
       </p>
     `;
   }
@@ -78,10 +83,13 @@ function displayBookings(bookings) {
 
     item.innerHTML = `
       <h3>${booking.room}</h3>
-      <p><strong>Student:</strong> ${booking.studentName}</p>
-      <p><strong>Email:</strong> ${booking.email}</p>
-      <p><strong>Date:</strong> ${booking.date}</p>
-      <p><strong>Time:</strong> ${booking.time}</p>
+      <p><strong>Student:</strong> ${booking.studentName || ""}</p>
+      <p><strong>Student ID:</strong> ${booking.studentId || ""}</p>
+      <p><strong>Contact:</strong> ${booking.contact || booking.email || ""}</p>
+      <p><strong>Date:</strong> ${booking.date || ""}</p>
+      <p><strong>Start Time:</strong> ${booking.startTime || booking.time || ""}</p>
+      <p><strong>End Time:</strong> ${booking.endTime || ""}</p>
+      <p><strong>Friends IDs:</strong> ${booking.friendsIds || "None"}</p>
       <button class="delete-btn" onclick="deleteBooking('${booking.bookingId}')">
         Cancel Booking
       </button>
@@ -113,9 +121,10 @@ async function deleteBooking(bookingId) {
       })
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to delete booking");
+      throw new Error(data.message || "Failed to delete booking");
     }
 
     alert("Booking cancelled successfully!");
