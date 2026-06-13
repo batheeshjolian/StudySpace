@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudySpace - Study Room Booking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>StudySpace</h1>
+      <p>Serverless Study Room Booking System</p>
+    </header>
+
+    <section class="card">
+      <h2>Book a Study Room</h2>
+
+      <form id="bookingForm">
+        <label>Full Name</label>
+        <input type="text" id="studentName" placeholder="Enter your full name" required />
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label>Room</label>
+        <select id="room" required>
+          <option value="">Select a room</option>
+          <option value="Room A">Room A</option>
+          <option value="Room B">Room B</option>
+          <option value="Room C">Room C</option>
+          <option value="Computer Lab">Computer Lab</option>
+        </select>
+
+        <label>Date</label>
+        <input type="date" id="date" required />
+
+        <label>Time</label>
+        <input type="time" id="time" required />
+
+        <button type="submit">Book Room</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Current Bookings</h2>
+      <button id="refreshBtn">Refresh Bookings</button>
+      <div id="bookingsList" class="bookings-list">
+        <p>No bookings loaded yet.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
