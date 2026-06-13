@@ -1,8 +1,7 @@
 // StudySpace - Frontend JavaScript
 
 // Later we will replace this with the real API Gateway URL from AWS
-const API_URL = "PASTE_YOUR_API_GATEWAY_URL_HERE";
-
+const API_URL = "https://poutf4aqsj.execute-api.us-east-1.amazonaws.com/prod";
 const bookingForm = document.getElementById("bookingForm");
 const bookingsList = document.getElementById("bookingsList");
 const refreshBtn = document.getElementById("refreshBtn");
