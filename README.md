@@ -18,8 +18,8 @@ Serverless Application
 ## Team Members
 
 - Jolian Batheesh - ID: 324005917
-- Add team member name - ID: XXXXXXXX
-- Add team member name - ID: XXXXXXXX
+- George Kass - ID: 211733175
+- Amer Habiballa - ID: 324990910
 
 ---
 
