@@ -6,19 +6,34 @@ on:
       - main
 
 jobs:
-  deploy-frontend:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Display project files
-        run: |
-          echo "Listing project files"
-          ls -R
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-      - name: Deployment placeholder
+      - name: Deploy frontend to S3
         run: |
-          echo "StudySpace CI/CD workflow is running successfully."
-          echo "In the final version, this workflow will deploy the frontend to S3 and update AWS resources."
+          aws s3 sync ./frontend s3://${{ secrets.S3_BUCKET }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_ID }} \
+            --paths "/*"
+
+      - name: Package and update Lambda
+        run: |
+          cd backend
+          zip function.zip lambda_function.py
+          aws lambda update-function-code \
+            --function-name StudySpaceFunction \
+            --zip-file fileb://function.zip
