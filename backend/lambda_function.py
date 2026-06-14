@@ -43,6 +43,7 @@ def lambda_handler(event, context):
     except Exception as e:
         print("Error:", str(e))
         return response(500, {"message": "Internal server error", "error": str(e)})
+        # Booking validation feature
 
 
 def create_booking(event):
