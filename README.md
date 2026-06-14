@@ -20,7 +20,7 @@ Serverless Application
 
 - Jolian Batheesh - ID: 324005917
 - George Kass - ID: 211733175
-- Amer Habiballa - ID: 324990910
+- Amr Habiballa - ID: 324990910
 
 ---
 
