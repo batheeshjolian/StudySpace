@@ -88,6 +88,7 @@ CI/CD: GitHub Actions
 ---
 
 ## Repository Structure
+Booking validation was added in a separate feature branch.
 
 ```text
 StudySpace/
