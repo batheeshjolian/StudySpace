@@ -13,32 +13,86 @@
       <p>Serverless Study Room Booking System</p>
     </header>
 
+    <!-- LOGIN -->
     <div class="card auth-card">
-      <div class="tabs">
-        <button id="loginTab" class="tab active" type="button">Login</button>
-        <button id="signupTab" class="tab" type="button">Sign Up</button>
-      </div>
-
+      <h2>Login</h2>
       <form id="loginForm" class="auth-form">
-        <label>Student ID</label>
-        <input type="text" id="loginStudentId" placeholder="Enter your student ID" required />
+        <label>Student ID <span class="hint">(9 digits)</span></label>
+        <input
+          type="text"
+          id="loginStudentId"
+          placeholder="Enter your 9-digit student ID"
+          pattern="\d{9}"
+          maxlength="9"
+          inputmode="numeric"
+          title="Student ID must be exactly 9 digits"
+          required
+        />
         <label>Password</label>
         <input type="password" id="loginPassword" placeholder="Enter your password" required />
         <button type="submit">Login</button>
+        <p class="form-link"><a href="#" id="forgotPasswordLink">Forgot Password?</a></p>
       </form>
 
-      <form id="signupForm" class="auth-form hidden">
+      <!-- FORGOT PASSWORD (hidden until link is clicked) -->
+      <div id="forgotPasswordSection" class="auth-form hidden">
+        <h3>Reset Password</h3>
+
+        <div id="resetStep1">
+          <label>Student ID <span class="hint">(9 digits)</span></label>
+          <input
+            type="text"
+            id="resetStudentId"
+            placeholder="Enter your 9-digit student ID"
+            pattern="\d{9}"
+            maxlength="9"
+            inputmode="numeric"
+            title="Student ID must be exactly 9 digits"
+            required
+          />
+          <label>Email</label>
+          <input type="email" id="resetEmail" placeholder="Enter your registered email" required />
+          <button type="button" id="sendResetCodeBtn">Send Reset Code</button>
+        </div>
+
+        <div id="resetStep2" class="hidden">
+          <p class="hint">Enter the code sent to your email, then choose a new password.</p>
+          <label>Reset Code</label>
+          <input type="text" id="resetCode" placeholder="6-digit code" maxlength="6" inputmode="numeric" required />
+          <label>New Password <span class="hint">(8+ chars, 1 uppercase, 1 number, 1 special)</span></label>
+          <input type="password" id="newPassword" placeholder="Create a strong password" required />
+          <button type="button" id="confirmResetBtn">Reset Password</button>
+        </div>
+
+        <p class="form-link"><a href="#" id="backToLoginLink">Back to Login</a></p>
+      </div>
+    </div>
+
+    <!-- CREATE ACCOUNT -->
+    <div class="card auth-card spaced">
+      <h2>Create Account</h2>
+      <form id="signupForm" class="auth-form">
         <label>Full Name</label>
         <input type="text" id="signupName" placeholder="Enter your full name" required />
-        <label>Student ID</label>
-        <input type="text" id="signupStudentId" placeholder="Choose your student ID" required />
+        <label>Student ID <span class="hint">(9 digits)</span></label>
+        <input
+          type="text"
+          id="signupStudentId"
+          placeholder="Choose your student ID"
+          pattern="\d{9}"
+          maxlength="9"
+          inputmode="numeric"
+          title="Student ID must be exactly 9 digits"
+          required
+        />
+        <label>Email <span class="hint">(used for password reset)</span></label>
+        <input type="email" id="signupEmail" placeholder="Enter your email" required />
         <label>Password <span class="hint">(8+ chars, 1 uppercase, 1 number, 1 special)</span></label>
         <input type="password" id="signupPassword" placeholder="Create a strong password" required />
         <button type="submit">Create Account</button>
       </form>
     </div>
   </div>
-
   <script src="auth.js"></script>
 </body>
 </html>
