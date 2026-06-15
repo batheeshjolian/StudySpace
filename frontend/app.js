@@ -109,12 +109,28 @@ function showAuth() {
 }
 
 // ===================== Signup =====================
+function validatePassword(pw) {
+  if (pw.length < 8) return "Password must be at least 8 characters.";
+  if (!/[A-Z]/.test(pw)) return "Password must include at least one uppercase letter.";
+  if (!/[0-9]/.test(pw)) return "Password must include at least one number.";
+  if (!/[^A-Za-z0-9]/.test(pw)) return "Password must include at least one special character (e.g. ! @ # $).";
+  return null;
+}
+
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const password = document.getElementById("signupPassword").value;
+
+  const pwError = validatePassword(password);
+  if (pwError) {
+    alert(pwError);
+    return;
+  }
+
   const payload = {
     studentName: document.getElementById("signupName").value.trim(),
     studentId: document.getElementById("signupStudentId").value.trim(),
-    password: document.getElementById("signupPassword").value
+    password: password
   };
 
   try {
