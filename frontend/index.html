@@ -13,10 +13,13 @@
       <p>Serverless Study Room Booking System</p>
     </header>
 
-    <div class="auth-grid">
-    <!-- LOGIN -->
     <div class="card auth-card">
-      <h2>Login</h2>
+      <div class="tabs">
+        <button id="loginTab" class="tab active" type="button">Login</button>
+        <button id="signupTab" class="tab" type="button">Sign Up</button>
+      </div>
+
+      <!-- LOGIN -->
       <form id="loginForm" class="auth-form">
         <label>Student ID <span class="hint">(9 digits)</span></label>
         <input
@@ -67,12 +70,9 @@
 
         <p class="form-link"><a href="#" id="backToLoginLink">Back to Login</a></p>
       </div>
-    </div>
 
-    <!-- CREATE ACCOUNT -->
-    <div class="card auth-card">
-      <h2>Create Account</h2>
-      <form id="signupForm" class="auth-form">
+      <!-- SIGN UP -->
+      <form id="signupForm" class="auth-form hidden">
         <label>Full Name</label>
         <input type="text" id="signupName" placeholder="Enter your full name" required />
         <label>Student ID <span class="hint">(9 digits)</span></label>
@@ -92,7 +92,6 @@
         <input type="password" id="signupPassword" placeholder="Create a strong password" required />
         <button type="submit">Create Account</button>
       </form>
-    </div>
     </div>
   </div>
   <script src="auth.js"></script>
