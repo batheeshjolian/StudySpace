@@ -148,6 +148,9 @@ button:active { transform: scale(0.98); }
   color: var(--navy);
   font-size: 18px;
 }
+#forgotPasswordSection button[type="button"] {
+  margin-top: 10px;
+}
 
 /* ---------- Welcome bar ---------- */
 .welcome-bar {
