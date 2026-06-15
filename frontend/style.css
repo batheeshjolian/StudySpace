@@ -106,24 +106,18 @@ button:active { transform: scale(0.98); }
 
 /* ---------- Auth (login page feel) ---------- */
 .auth-card { max-width: 440px; margin: 10px auto 0; }
-.auth-form { animation: fadeIn 0.35s ease both; }
-
-/* ---------- Auth grid (Login + Create Account side by side) ---------- */
-.auth-grid {
+.tabs {
   display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  margin-top: 10px;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: #eef2f7;
+  padding: 6px;
+  border-radius: 12px;
 }
-.auth-grid .auth-card {
-  max-width: none;
-  margin: 0;
-  flex: 1;
-  min-width: 0;
-}
-@media (max-width: 768px) {
-  .auth-grid { flex-direction: column; }
-}
+.tab { flex: 1; background: transparent; color: var(--muted); font-weight: 600; padding: 11px; }
+.tab:hover { background: transparent; box-shadow: none; color: var(--navy); }
+.tab.active { background: #fff; color: var(--blue); box-shadow: 0 2px 8px rgba(36, 59, 83, 0.1); }
+.auth-form { animation: fadeIn 0.35s ease both; }
 
 /* ---------- Form links (Forgot password / Back to login) ---------- */
 .form-link {
