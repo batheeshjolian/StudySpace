@@ -18,9 +18,9 @@ Serverless Application
 
 ## Team Members
 
-- Jolian Batheesh - ID: 324005917
-- George Kass - ID: 211733175
-- Amr Habiballa - ID: 324990910
+- Jolian Batheesh 
+- George Kass
+- Amr Habiballa
 
 ---
 
