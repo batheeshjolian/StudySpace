@@ -7,12 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container narrow">
+  <div class="container">
     <header>
       <h1>StudySpace</h1>
       <p>Serverless Study Room Booking System</p>
     </header>
 
+    <div class="auth-grid">
     <!-- LOGIN -->
     <div class="card auth-card">
       <h2>Login</h2>
@@ -69,7 +70,7 @@
     </div>
 
     <!-- CREATE ACCOUNT -->
-    <div class="card auth-card spaced">
+    <div class="card auth-card">
       <h2>Create Account</h2>
       <form id="signupForm" class="auth-form">
         <label>Full Name</label>
@@ -91,6 +92,7 @@
         <input type="password" id="signupPassword" placeholder="Create a strong password" required />
         <button type="submit">Create Account</button>
       </form>
+    </div>
     </div>
   </div>
   <script src="auth.js"></script>
