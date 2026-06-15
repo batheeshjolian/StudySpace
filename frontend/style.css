@@ -1,0 +1,353 @@
+/* ===================== StudySpace - Styles ===================== */
+
+:root {
+  --navy: #1e293b;
+  --navy-deep: #0f172a;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --green: #10b981;
+  --green-dark: #059669;
+  --red: #dc2626;
+  --red-dark: #b91c1c;
+  --bg: #eef2f9;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 100% -10%, #dbe7ff 0%, transparent 55%),
+    radial-gradient(1000px 500px at -10% 110%, #d6f5ea 0%, transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.container {
+  width: 90%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 36px 0 60px;
+}
+
+/* ---------- Header ---------- */
+header {
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 34px 25px;
+  background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  animation: fadeDown 0.6s ease both;
+}
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(400px 200px at 80% 0%, rgba(37, 99, 235, 0.35), transparent 70%);
+  pointer-events: none;
+}
+header h1 {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+header p {
+  margin-top: 8px;
+  font-size: 17px;
+  color: #cbd5e1;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  padding: 26px;
+  margin-bottom: 22px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.5s ease both;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.card h2 {
+  margin-top: 0;
+  color: var(--navy);
+  font-size: 22px;
+}
+
+/* ---------- Forms ---------- */
+form {
+  display: grid;
+  gap: 14px;
+}
+label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 14px;
+}
+.hint {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 12px;
+}
+input,
+select {
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ---------- Buttons ---------- */
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+}
+button:hover {
+  background: var(--blue-dark);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+button:active {
+  transform: scale(0.97);
+}
+.secondary {
+  background: #e2e8f0;
+  color: #334155;
+}
+.secondary:hover {
+  background: #cbd5e1;
+  box-shadow: none;
+}
+
+/* ---------- Time row ---------- */
+.time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.time-col {
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- Auth ---------- */
+.auth-card {
+  max-width: 460px;
+  margin: 0 auto;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: #f1f5f9;
+  padding: 6px;
+  border-radius: 12px;
+}
+.tab {
+  flex: 1;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 10px;
+}
+.tab:hover {
+  background: transparent;
+  box-shadow: none;
+  color: var(--navy);
+}
+.tab.active {
+  background: #fff;
+  color: var(--blue);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+.auth-form {
+  animation: fadeIn 0.35s ease both;
+}
+
+/* ---------- Welcome bar ---------- */
+.welcome-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  font-weight: 600;
+  color: var(--navy);
+}
+#logoutBtn {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 8px 16px;
+}
+#logoutBtn:hover {
+  background: #e2e8f0;
+  box-shadow: none;
+}
+
+/* ---------- Bookings ---------- */
+.bookings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#refreshBtn {
+  background: var(--green);
+  padding: 8px 16px;
+}
+#refreshBtn:hover {
+  background: var(--green-dark);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+.bookings-list {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+}
+.booking-item {
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--blue);
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #f8fafc;
+  animation: fadeIn 0.4s ease both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.booking-item:hover {
+  transform: translateX(3px);
+  box-shadow: var(--shadow);
+}
+.booking-item h3 {
+  margin: 0 0 8px 0;
+  color: var(--navy);
+}
+.booking-item p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+.delete-btn {
+  background: var(--red);
+  margin-top: 10px;
+  padding: 8px 16px;
+}
+.delete-btn:hover {
+  background: var(--red-dark);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
+}
+
+/* ---------- Modal (cancellation code) ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease both;
+}
+.modal {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow-hover);
+  animation: popIn 0.3s ease both;
+}
+.modal h3 {
+  margin-top: 0;
+  color: var(--navy);
+}
+.modal p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.code-box {
+  font-family: "Courier New", monospace;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--blue);
+  background: #eff6ff;
+  border: 1px dashed var(--blue);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 18px 0;
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* ---------- Utilities ---------- */
+.hidden {
+  display: none;
+}
+.error {
+  color: var(--red);
+  font-weight: 600;
+}
+.success {
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  header h1 { font-size: 30px; }
+  .time-row { grid-template-columns: 1fr; }
+  .container { width: 94%; }
+}
