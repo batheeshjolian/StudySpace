@@ -3,109 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudySpace - Study Room Booking</title>
+  <title>StudySpace - Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="container narrow">
     <header>
       <h1>StudySpace</h1>
       <p>Serverless Study Room Booking System</p>
     </header>
 
-    <!-- ===================== AUTH VIEW ===================== -->
-    <section id="authView">
-      <div class="card auth-card">
-        <div class="tabs">
-          <button id="loginTab" class="tab active" type="button">Login</button>
-          <button id="signupTab" class="tab" type="button">Sign Up</button>
-        </div>
-
-        <form id="loginForm" class="auth-form">
-          <label>Student ID</label>
-          <input type="text" id="loginStudentId" placeholder="Enter your student ID" required />
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="Enter your password" required />
-          <button type="submit">Login</button>
-        </form>
-
-        <form id="signupForm" class="auth-form hidden">
-          <label>Full Name</label>
-          <input type="text" id="signupName" placeholder="Enter your full name" required />
-          <label>Student ID</label>
-          <input type="text" id="signupStudentId" placeholder="Choose your student ID" required />
-          <label>Password <span class="hint">(8+ chars, 1 uppercase, 1 number, 1 special)</span></label>
-          <input type="password" id="signupPassword" placeholder="Create a strong password" required />
-          <button type="submit">Create Account</button>
-        </form>
-      </div>
-    </section>
-
-    <!-- ===================== APP VIEW ===================== -->
-    <section id="appView" class="hidden">
-      <div class="welcome-bar card">
-        <span id="welcomeText"></span>
-        <button id="logoutBtn" type="button">Logout</button>
+    <div class="card auth-card">
+      <div class="tabs">
+        <button id="loginTab" class="tab active" type="button">Login</button>
+        <button id="signupTab" class="tab" type="button">Sign Up</button>
       </div>
 
-      <div class="card">
-        <h2>Book a Study Room</h2>
-        <form id="bookingForm">
-          <label>Room</label>
-          <select id="room" required>
-            <option value="">Select a room</option>
-            <optgroup label="Single Rooms (1 person)">
-              <option value="Room A">Room A</option>
-              <option value="Room B">Room B</option>
-            </optgroup>
-            <optgroup label="Group Rooms (4+ people)">
-              <option value="Room C">Room C</option>
-              <option value="Computer Lab">Computer Lab</option>
-            </optgroup>
-          </select>
+      <form id="loginForm" class="auth-form">
+        <label>Student ID</label>
+        <input type="text" id="loginStudentId" placeholder="Enter your student ID" required />
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+        <button type="submit">Login</button>
+      </form>
 
-          <label>Contact (Email / Phone)</label>
-          <input type="text" id="contact" placeholder="Enter your email or phone" required />
-
-          <label>Date</label>
-          <input type="date" id="date" required />
-
-          <div class="time-row">
-            <div class="time-col">
-              <label>Start Time</label>
-              <select id="startTime" required>
-                <option value="">--</option>
-              </select>
-            </div>
-            <div class="time-col">
-              <label>End Time</label>
-              <select id="endTime" required>
-                <option value="">--</option>
-              </select>
-            </div>
-          </div>
-
-          <div id="friendsGroup" class="hidden">
-            <label>Friends' Student IDs <span class="hint">(minimum 3, must be registered users)</span></label>
-            <input type="text" id="friendsIds" placeholder="123456789, 987654321, 456789123" />
-          </div>
-
-          <button type="submit">Book Room</button>
-        </form>
-      </div>
-
-      <div class="card">
-        <div class="bookings-header">
-          <h2>Current Bookings</h2>
-          <button id="refreshBtn" type="button">Refresh</button>
-        </div>
-        <div id="bookingsList" class="bookings-list">
-          <p>No bookings loaded yet.</p>
-        </div>
-      </div>
-    </section>
+      <form id="signupForm" class="auth-form hidden">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Enter your full name" required />
+        <label>Student ID</label>
+        <input type="text" id="signupStudentId" placeholder="Choose your student ID" required />
+        <label>Password <span class="hint">(8+ chars, 1 uppercase, 1 number, 1 special)</span></label>
+        <input type="password" id="signupPassword" placeholder="Create a strong password" required />
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>
