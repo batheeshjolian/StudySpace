@@ -1,5 +1,7 @@
 // ===================== StudySpace - Auth Page (index.html) =====================
 const API_URL = "https://poutf4aqsj.execute-api.us-east-1.amazonaws.com/prod";
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
 const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
 
@@ -14,6 +16,29 @@ const resetStep2 = document.getElementById("resetStep2");
 if (sessionStorage.getItem("studyspace_user")) {
   window.location.href = "booking.html";
 }
+
+// ---------- Tab switching ----------
+function resetForgotPasswordPanel() {
+  forgotPasswordSection.classList.add("hidden");
+  resetStep1.classList.remove("hidden");
+  resetStep2.classList.add("hidden");
+}
+
+loginTab.addEventListener("click", () => {
+  loginTab.classList.add("active");
+  signupTab.classList.remove("active");
+  loginForm.classList.remove("hidden");
+  signupForm.classList.add("hidden");
+  resetForgotPasswordPanel();
+});
+signupTab.addEventListener("click", () => {
+  signupTab.classList.add("active");
+  loginTab.classList.remove("active");
+  signupForm.classList.remove("hidden");
+  loginForm.classList.add("hidden");
+  resetForgotPasswordPanel();
+});
+
 // ---------- Student ID rule ----------
 function validateStudentId(id) {
   return /^\d{9}$/.test(id);
@@ -103,9 +128,7 @@ forgotPasswordLink.addEventListener("click", (e) => {
 
 backToLoginLink.addEventListener("click", (e) => {
   e.preventDefault();
-  forgotPasswordSection.classList.add("hidden");
-  resetStep1.classList.remove("hidden");
-  resetStep2.classList.add("hidden");
+  resetForgotPasswordPanel();
   loginForm.classList.remove("hidden");
 });
 
