@@ -3,13 +3,19 @@ import boto3
 import uuid
 import hashlib
 import re
-from datetime import datetime
+import secrets
+from datetime import datetime, timedelta
 from boto3.dynamodb.conditions import Attr
 
 # ---------- DynamoDB tables ----------
 dynamodb = boto3.resource("dynamodb")
 bookings_table = dynamodb.Table("StudySpaceBookings")
 users_table = dynamodb.Table("StudySpaceUsers")  # NEW table for accounts
+
+# ---------- SES (for password reset emails) ----------
+ses_client = boto3.client("ses")
+SES_SENDER_EMAIL = "amrhabiballa8@gmail.com"  # <-- must be a verified SES identity
+RESET_CODE_TTL_MINUTES = 15
 
 # ---------- Business rules ----------
 OPEN_TIME = "08:00"
@@ -52,6 +58,10 @@ def validate_password(pw):
     return None
 
 
+def validate_student_id(sid):
+    return bool(re.match(r"^\d{9}$", sid))
+
+
 def time_to_minutes(t):
     h, m = t.split(":")
     return int(h) * 60 + int(m)
@@ -70,6 +80,10 @@ def lambda_handler(event, context):
             return signup(event)
         if http_method == "POST" and path.endswith("/login"):
             return login(event)
+        if http_method == "POST" and path.endswith("/forgot-password"):
+            return forgot_password(event)
+        if http_method == "POST" and path.endswith("/reset-password"):
+            return reset_password(event)
         if http_method == "GET" and path.endswith("/bookings"):
             return get_bookings()
         if http_method == "POST" and path.endswith("/bookings"):
@@ -89,10 +103,14 @@ def signup(event):
     body = json.loads(event.get("body", "{}"))
     student_id = body.get("studentId", "").strip()
     name = body.get("studentName", "").strip()
+    email = body.get("email", "").strip().lower()
     password = body.get("password", "")
 
-    if not student_id or not name or not password:
-        return response(400, {"message": "Name, student ID and password are required."})
+    if not student_id or not name or not email or not password:
+        return response(400, {"message": "Name, student ID, email and password are required."})
+
+    if not validate_student_id(student_id):
+        return response(400, {"message": "Student ID must be exactly 9 digits."})
 
     pw_error = validate_password(password)
     if pw_error:
@@ -105,6 +123,7 @@ def signup(event):
     users_table.put_item(Item={
         "studentId": student_id,
         "studentName": name,
+        "email": email,
         "passwordHash": hash_password(password),
         "createdAt": datetime.utcnow().isoformat()
     })
@@ -135,6 +154,93 @@ def login(event):
         "studentId": user["studentId"],
         "studentName": user.get("studentName", "")
     })
+
+
+# ---------- Forgot / Reset Password ----------
+def forgot_password(event):
+    body = json.loads(event.get("body", "{}"))
+    student_id = body.get("studentId", "").strip()
+    email = body.get("email", "").strip().lower()
+
+    if not student_id or not email:
+        return response(400, {"message": "Student ID and email are required."})
+
+    if not validate_student_id(student_id):
+        return response(400, {"message": "Student ID must be exactly 9 digits."})
+
+    result = users_table.get_item(Key={"studentId": student_id})
+    user = result.get("Item")
+
+    # Generic response whether or not the account exists / email matches,
+    # so this endpoint can't be used to probe for valid student IDs.
+    generic_ok = response(200, {"message": "If that account exists, a reset code has been sent."})
+
+    if not user or user.get("email", "").lower() != email:
+        return generic_ok
+
+    code = f"{secrets.randbelow(1000000):06d}"
+    expiry = (datetime.utcnow() + timedelta(minutes=RESET_CODE_TTL_MINUTES)).isoformat()
+
+    users_table.update_item(
+        Key={"studentId": student_id},
+        UpdateExpression="SET resetCode = :c, resetCodeExpiry = :e",
+        ExpressionAttributeValues={":c": code, ":e": expiry}
+    )
+
+    try:
+        ses_client.send_email(
+            Source=SES_SENDER_EMAIL,
+            Destination={"ToAddresses": [email]},
+            Message={
+                "Subject": {"Data": "StudySpace - Password Reset Code"},
+                "Body": {
+                    "Text": {
+                        "Data": (
+                            f"Your StudySpace password reset code is: {code}\n"
+                            f"This code expires in {RESET_CODE_TTL_MINUTES} minutes.\n\n"
+                            "If you didn't request this, you can ignore this email."
+                        )
+                    }
+                }
+            }
+        )
+    except Exception as e:
+        print("SES error:", str(e))
+        return response(500, {"message": "Could not send reset email. Please try again later."})
+
+    return generic_ok
+
+
+def reset_password(event):
+    body = json.loads(event.get("body", "{}"))
+    student_id = body.get("studentId", "").strip()
+    code = body.get("code", "").strip()
+    new_password = body.get("newPassword", "")
+
+    if not student_id or not code or not new_password:
+        return response(400, {"message": "Student ID, code and new password are required."})
+
+    pw_error = validate_password(new_password)
+    if pw_error:
+        return response(400, {"message": pw_error})
+
+    result = users_table.get_item(Key={"studentId": student_id})
+    user = result.get("Item")
+
+    if not user or user.get("resetCode") != code:
+        return response(400, {"message": "Invalid or expired reset code."})
+
+    expiry_str = user.get("resetCodeExpiry")
+    if not expiry_str or datetime.utcnow() > datetime.fromisoformat(expiry_str):
+        return response(400, {"message": "Invalid or expired reset code."})
+
+    users_table.update_item(
+        Key={"studentId": student_id},
+        UpdateExpression="SET passwordHash = :p REMOVE resetCode, resetCodeExpiry",
+        ExpressionAttributeValues={":p": hash_password(new_password)}
+    )
+
+    return response(200, {"message": "Password reset successful."})
 
 
 # ---------- Bookings ----------
